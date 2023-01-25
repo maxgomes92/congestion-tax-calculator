@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping(Congestion.BASE_URL)
+@RequestMapping(CongestionController.BASE_URL)
 @RestController
 @RequiredArgsConstructor
-public class Congestion {
+public class CongestionController {
 
     public static final String BASE_URL = "/api/v1/congestion";
 
-    private final CongestionTaxCalculator congestionTaxCalculatorService;
+    private final CongestionTaxCalculator congestionTaxCalculator;
 
     @PostMapping
     public CongestionResponse calculateTax(@RequestBody CongestionRequest request) {
-        return congestionTaxCalculatorService.calculateTax(request);
+        return congestionTaxCalculator.calculateTax(request);
     }
 }
