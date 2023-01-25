@@ -1,6 +1,8 @@
 package com.calculator.tax.service;
 
 import com.calculator.tax.TBD.Vehicle;
+import com.calculator.tax.web.dto.CongestionRequest;
+import com.calculator.tax.web.dto.CongestionResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -19,7 +21,6 @@ public class CongestionTaxCalculator implements ICongestionTaxCalculator {
         tollFreeVehicles.put("Diplomat", 3);
         tollFreeVehicles.put("Foreign", 4);
         tollFreeVehicles.put("Military", 5);
-
     }
 
     public int getTax(Vehicle vehicle, Date[] dates)
@@ -105,7 +106,7 @@ public class CongestionTaxCalculator implements ICongestionTaxCalculator {
     }
 
     @Override
-    public int calculateTax() {
-        return 0;
+    public CongestionResponse calculateTax(CongestionRequest request) {
+        return CongestionResponse.builder().total(100).build();
     }
 }
