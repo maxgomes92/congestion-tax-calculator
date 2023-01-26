@@ -15,6 +15,7 @@ import spock.lang.Specification
 import java.time.LocalDateTime
 import java.time.LocalDate
 
+import static org.hamcrest.Matchers.hasSize
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -54,7 +55,10 @@ class CongestionControllerTest extends Specification {
         mockMvc.perform(postToPerform)
             .andExpect(status().isOk())
             .andExpectAll(
-                    jsonPath('$.total', equalTo(result.total))
+                    jsonPath('$.total', equalTo(result.total)),
+                    jsonPath('$.details', hasSize(result.getDetails().size())),
+                    jsonPath('$.details[0].timestamp', equalTo(result.getDetails()[0].getTimestamp().toString())),
+                    jsonPath('$.details[0].value', equalTo(result.getDetails()[0].getValue())),
             )
 
         then:
