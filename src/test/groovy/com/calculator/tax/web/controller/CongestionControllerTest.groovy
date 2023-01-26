@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -84,6 +83,7 @@ class CongestionControllerTest extends Specification {
         where:
         content || statusCode
         "{ \"vehicleType\": \"car\" }"              || 200 // Valid type, no timestamp
+        "{ \"vehicleType\": \"military\" }"              || 200 // Valid type, no timestamp
         "{ \"vehicleType\": \"car\", \"timestamps\": [\"some_invalid_date\"] }" || 400 // Valid type, invalid timestamp
         "{ \"vehicleType\": \"car\", \"timestamps\": [\"2013-01-14 21:00:00\"] }" || 200 // Valid type, valid timestamp
         "{ \"vehicleType\": \"not_valid_type\" }"   || 400 // Invalid type, no timestamp

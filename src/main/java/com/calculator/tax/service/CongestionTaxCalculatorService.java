@@ -1,10 +1,9 @@
 package com.calculator.tax.service;
 
-import com.calculator.tax.TBD.Car;
-import com.calculator.tax.TBD.Vehicle;
 import com.calculator.tax.web.dto.CongestionRequest;
 import com.calculator.tax.web.dto.CongestionResponse;
 import com.calculator.tax.web.dto.TaxDetails;
+import com.calculator.tax.web.dto.VehicleTypes;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,32 +14,32 @@ import java.util.stream.Collectors;
 
 @Service
 public class CongestionTaxCalculatorService implements ICongestionTaxCalculatorService {
-    private static final Map<String, Integer> tollFreeVehicles = new HashMap<>();
+    private static final Map<VehicleTypes, Integer> tollFreeVehicles = new HashMap<>();
 
     static {
-        tollFreeVehicles.put("Motorcycle", 0);
-        tollFreeVehicles.put("Tractor", 1);
-        tollFreeVehicles.put("Emergency", 2);
-        tollFreeVehicles.put("Diplomat", 3);
-        tollFreeVehicles.put("Foreign", 4);
-        tollFreeVehicles.put("Military", 5);
+        tollFreeVehicles.put(VehicleTypes.motorcycle, 0);
+        tollFreeVehicles.put(VehicleTypes.tractor, 1);
+        tollFreeVehicles.put(VehicleTypes.emergency, 2);
+        tollFreeVehicles.put(VehicleTypes.diplomat, 3);
+        tollFreeVehicles.put(VehicleTypes.foreign, 4);
+        tollFreeVehicles.put(VehicleTypes.military, 5);
     }
 
     /**
      * Calculate the tax for a single day
      *
-     * @param vehicle The vehicle to which the timestamps belong
+     * @param vehicleType The vehicle to which the timestamps belong
      * @param timestamps Timestamps of a single day
      * @return total fee of a single day for a given vehicle
      */
-    public int getTaxByDay(Vehicle vehicle, List<Date> timestamps)
+    public int getTaxByDay(VehicleTypes vehicleType, List<Date> timestamps)
     {
         Date intervalStart = timestamps.get(0);
         int totalFee = 0;
 
         for (Date date : timestamps) {
-            int nextFee = GetTollFee(date, vehicle);
-            int tempFee = GetTollFee(intervalStart, vehicle);
+            int nextFee = GetTollFee(date, vehicleType);
+            int tempFee = GetTollFee(intervalStart, vehicleType);
 
             long diffInMillies = date.getTime() - intervalStart.getTime();
             long minutes = diffInMillies / 1000 / 60;
@@ -57,15 +56,14 @@ public class CongestionTaxCalculatorService implements ICongestionTaxCalculatorS
         return Math.min(totalFee, 60);
     }
 
-    private boolean IsTollFreeVehicle(Vehicle vehicle) {
-        if (vehicle == null) return false;
-        String vehicleType = vehicle.getVehicleType();
+    private boolean IsTollFreeVehicle(VehicleTypes vehicleType) {
+        if (vehicleType == null) return false;
         return tollFreeVehicles.containsKey(vehicleType);
     }
 
-    public int GetTollFee(Date timestamp, Vehicle vehicle)
+    public int GetTollFee(Date timestamp, VehicleTypes vehicleType)
     {
-        if (IsTollFreeDate(timestamp) || IsTollFreeVehicle(vehicle)) {
+        if (IsTollFreeDate(timestamp) || IsTollFreeVehicle(vehicleType)) {
             return 0;
         }
 
@@ -117,7 +115,7 @@ public class CongestionTaxCalculatorService implements ICongestionTaxCalculatorS
 
         var total = timestampsGroupedByDate.entrySet().stream().reduce(0, (acc, group) -> {
             var dateList = group.getValue().stream().map(this::convertToDateViaInstant).toList();
-            var dayTax = getTaxByDay(new Car(), dateList);
+            var dayTax = getTaxByDay(request.getVehicleType(), dateList);
 
             details.add(TaxDetails.builder().value(dayTax).timestamp(group.getKey()).build());
 
