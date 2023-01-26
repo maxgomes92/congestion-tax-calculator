@@ -1,18 +1,16 @@
 package com.calculator.tax.web.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Data
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CongestionRequest {
-    private String vehicleType;
+
+    private VehicleTypes vehicleType;
     private Set<LocalDateTime> timestamps;
 }
