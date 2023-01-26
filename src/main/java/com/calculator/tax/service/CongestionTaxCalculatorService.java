@@ -91,8 +91,7 @@ public class CongestionTaxCalculatorService implements ICongestionTaxCalculatorS
 
         if (day == Calendar.SATURDAY || day == Calendar.SUNDAY) return true;
 
-        if (year == 2013)
-        {
+        if (year == 2013) {
             return (month == 1 && dayOfMonth == 1) ||
                     (month == 3 && (dayOfMonth == 28 || dayOfMonth == 29)) ||
                     (month == 4 && (dayOfMonth == 1 || dayOfMonth == 30)) ||
@@ -102,6 +101,7 @@ public class CongestionTaxCalculatorService implements ICongestionTaxCalculatorS
                     (month == 11 && dayOfMonth == 1) ||
                     (month == 12 && (dayOfMonth == 24 || dayOfMonth == 25 || dayOfMonth == 26 || dayOfMonth == 31));
         }
+
         return false;
     }
 

@@ -1,6 +1,6 @@
 package com.calculator.tax.web.controller
 
-import com.calculator.tax.mappers.ObjectConfig
+import com.calculator.tax.configuration.DateMapper
 import com.calculator.tax.service.ICongestionTaxCalculatorService
 import com.calculator.tax.web.dto.CongestionRequest
 import com.calculator.tax.web.dto.CongestionResponse
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.hamcrest.Matchers.equalTo
 
 @WebMvcTest(CongestionController)
-@Import(ObjectConfig.class)
+@Import(DateMapper.class)
 class CongestionControllerTest extends Specification {
     @SpringBean
     ICongestionTaxCalculatorService congestionTaxCalculator = Mock(ICongestionTaxCalculatorService)

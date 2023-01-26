@@ -1,4 +1,4 @@
-package com.calculator.tax.mappers;
+package com.calculator.tax.configuration;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
-public class ObjectConfig {
+public class DateMapper {
     @Bean
     @Primary
     public ObjectMapper objectMapper() {
