@@ -1,9 +1,11 @@
 package com.calculator.tax.web.controller;
 
-import com.calculator.tax.service.CongestionTaxCalculator;
+import com.calculator.tax.service.CongestionTaxCalculatorService;
+import com.calculator.tax.service.ICongestionTaxCalculatorService;
 import com.calculator.tax.web.dto.CongestionRequest;
 import com.calculator.tax.web.dto.CongestionResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +18,10 @@ public class CongestionController {
 
     public static final String BASE_URL = "/api/v1/congestion";
 
-    private final CongestionTaxCalculator congestionTaxCalculator;
+    private final ICongestionTaxCalculatorService congestionTaxCalculatorService;
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public CongestionResponse calculateTax(@RequestBody CongestionRequest request) {
-        return congestionTaxCalculator.calculateTax(request);
+        return congestionTaxCalculatorService.calculateTax(request);
     }
 }

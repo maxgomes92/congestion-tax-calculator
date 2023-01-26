@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class CongestionTaxCalculator implements ICongestionTaxCalculator {
+public class CongestionTaxCalculatorService implements ICongestionTaxCalculatorService {
     private static Map<String, Integer> tollFreeVehicles = new HashMap<>();
 
     static {
