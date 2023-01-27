@@ -89,7 +89,11 @@ public class CongestionTaxCalculatorService implements ICongestionTaxCalculatorS
         int day = timestamp.getDay() + 1;
         int dayOfMonth = timestamp.getDate();
 
-        if (day == Calendar.SATURDAY || day == Calendar.SUNDAY) return true;
+        // According to Date library docs, these are the values for Sunday and Saturday
+        int SUNDAY = 0;
+        int SATURDAY = 6;
+
+        if (day == SATURDAY || day == SUNDAY) return true;
 
         if (year == 2013) {
             return (month == 1 && dayOfMonth == 1) ||
